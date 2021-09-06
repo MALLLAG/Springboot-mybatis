@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cos.blog.repository.BoardRepository">
+	
+	<insert id="save">
+		INSERT INTO board(title, content, userId, cate, createDate) 
+		VALUES(#{title}, #{content}, #{userId}, #{cate}, now())
+	</insert>
+	
+	<select id="findAll" resultType="com.cos.blog.model.Board">
+		SELECT * FROM board ORDER BY readCount DESC limit 10 ;
+	</select>
+	
+	<select id="findById" resultType="com.cos.blog.controller.dto.BoardDetailRespDto">
+		SELECT p.id, p.title, p.content, u.username 
+		FROM board p INNER JOIN user u 
+		ON p.userId = u.id 
+		WHERE p.id = #{id}
+	</select>
+	
+	<select id="findOne" resultType="com.cos.blog.model.Board">
+		SELECT * FROM board WHERE id = #{id}
+	</select>
+
+	<delete id="deleteById">
+		DELETE FROM board WHERE id = #{id}
+	</delete>
+	
+	<update id="update">
+		UPDATE board SET title = #{title}, content = #{content} 
+		WHERE id = #{id}
+	</update>
+	
+	<update id="readCount">
+		UPDATE board SET readCount = readCount + 1 
+		WHERE id = #{id}
+	</update>
+	
+	<select id="likes">
+		select count(*)
+		from likeCount
+		where boardId = #{boardId}
+		
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<select id="cateSports" resultType="com.cos.blog.model.Board">
+		SELECT *
+		FROM board
+		WHERE cate = "sports"
+		ORDER BY id DESC
+	</select>
+	
+	<select id="cateGame" resultType="com.cos.blog.model.Board">
+		SELECT *
+		FROM board
+		WHERE cate = "game"
+		ORDER BY id DESC
+	</select>
+	
+	<select id="cateEmployment" resultType="com.cos.blog.model.Board">
+		SELECT *
+		FROM board
+		WHERE cate = "employment"
+		ORDER BY id DESC
+	</select>
+	
+	<select id="cateStock" resultType="com.cos.blog.model.Board">
+		SELECT *
+		FROM board
+		WHERE cate = "stock"
+		ORDER BY id DESC
+	</select>
+	
+	<select id="cateFashion" resultType="com.cos.blog.model.Board">
+		SELECT *
+		FROM board
+		WHERE cate = "fashion"
+		ORDER BY id DESC
+	</select>
+	
+	<select id="cateEntertainment" resultType="com.cos.blog.model.Board">
+		SELECT *
+		FROM board
+		WHERE cate = "entertainment"
+		ORDER BY id DESC
+	</select>
+	
+  
+</mapper>
